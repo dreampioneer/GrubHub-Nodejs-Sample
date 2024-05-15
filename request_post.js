@@ -1,6 +1,7 @@
-
+import axios from 'axios'
 import dotenv from 'dotenv'
-import {generateNonce, calculateBodyHash, buildNormalizedRequest, generateHMAC_SHA256, encodeToBase64, requestAxios} from '../test-app/utils.js'
+import { uuid } from 'uuidv4'
+import {generateNonce, calculateBodyHash, buildNormalizedRequest, generateHMAC_SHA256, encodeToBase64} from '../test-app/utils.js'
 
 dotenv.config();
 
@@ -14,19 +15,19 @@ const requestPath= `/pos/v1/merchant/${merchant_id}/menu/schedules/overrides`
 const host=process.env.HOST
 const port= "443"
 const nonce= generateNonce()
+const requestBody = {
+    "job_id": uuid(),
+    "merchant_ids": [
+        process.env.MERCHANT_ID
+    ],
+    "menu_url": "https://example.com/menu",
+    "normalized_menu": true,
+    "apply_existing_schedule_overrides": true,
+    "timestamp": 1669286400
+}
 const bodyHash= calculateBodyHash('')
 
 const normalizedRequest = buildNormalizedRequest(nonce, requestMethod, requestPath, host, port, '', '')
 const sha256Hmac = generateHMAC_SHA256(secret_key, normalizedRequest);
 const mac = encodeToBase64(sha256Hmac);
-const method = 'get'
 
-requestAxios({host, path, method, nonce, mac, requestBody: ''})
-  .then((response) => {
-    console.log('Success')
-    console.log(response.data); 
-  })
-  .catch((error) => {
-    console.log('Error')
-    console.error(error); 
-  });
