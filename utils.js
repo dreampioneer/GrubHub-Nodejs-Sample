@@ -20,7 +20,7 @@ export const generateNonce = () => {
 }
 
 export const calculateBodyHash = (requestBody) => {
-    const sha256Hash = crypto.createHash('sha256').update(Buffer.from(requestBody, 'utf8')).digest('hex');
+    const sha256Hash = crypto.createHash('sha256').update(requestBody).digest();
     const base64Encoded = Buffer.from(sha256Hash, 'utf8').toString('base64');
     return base64Encoded;
 }
@@ -50,17 +50,19 @@ export const encodeToBase64 = (data) => {
     return Buffer.from(data,'utf-8').toString('base64');
 }
 
-export const requestAxios = ({host, path, method, nonce, mac, requestBody}) => {
+export const requestAxios = ({host, path, method, nonce, mac, requestBody, bodyHash=''}) => {
+    let data = JSON.stringify(requestBody);
     return new Promise((resolve, reject) => {
         let config = {
             method: method,
             maxBodyLength: Infinity,
             url: 'https://' + host + '/' + path,
             headers: { 
-            'Authorization': `MAC id="${process.env.CLIENT_ID}",nonce="${nonce}",mac="${mac}"`, 
-            'X-GH-PARTNER-KEY': process.env.PARTNER_KEY
+                'Content-Type': 'application/json',
+                'Authorization': bodyHash ? `MAC id="${process.env.CLIENT_ID}",nonce="${nonce}",bodyhash="${bodyHash}",mac="${mac}"` : `MAC id="${process.env.CLIENT_ID}",nonce="${nonce}",mac="${mac}"`, 
+                'X-GH-PARTNER-KEY': process.env.PARTNER_KEY,
             },
-            data: requestBody
+            data: data
         };
         
         axios.request(config)
