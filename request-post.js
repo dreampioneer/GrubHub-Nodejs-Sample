@@ -14,7 +14,7 @@ const host=process.env.HOST
 const port= "443"
 const nonce= generateNonce()
 const requestBody = {
-    job_id: "12345678-abcd-efgh-ijkl-9876543210ab",
+    job_id: uuidv4(),
     merchant_ids: [
         process.env.MERCHANT_ID
     ],
