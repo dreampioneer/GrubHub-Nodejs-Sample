@@ -6,9 +6,10 @@ dotenv.config();
 
 const secret_key=process.env.SECRET_KEY
 const merchant_id=process.env.MERCHANT_ID
-const path= `pos/v1/merchant/${merchant_id}/menu/schedules/overrides`
+const job_id='d9f61099-d172-4750-9a6f-c44440413d2d'
+const path= `pos/v1/menu/ingestion/jobs/${job_id}`
 const requestMethod= "GET"
-const requestPath= `/pos/v1/merchant/${merchant_id}/menu/schedules/overrides`
+const requestPath= `/pos/v1/menu/ingestion/jobs/${job_id}`
 const host=process.env.HOST
 const port= "443"
 const nonce= generateNonce()

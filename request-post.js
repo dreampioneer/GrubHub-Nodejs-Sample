@@ -18,7 +18,7 @@ const requestBody = {
     merchant_ids: [
         process.env.MERCHANT_ID
     ],
-    menu_url: "https://example.com/menu",
+    menu_url: "http://170.130.55.78/menu/menu.json",
     normalized_menu: true,
     apply_existing_schedule_overrides: true,
     timestamp: Date.now()
