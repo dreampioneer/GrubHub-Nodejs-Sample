@@ -43,5 +43,9 @@ requestAxios({host, path, method: requestMethod, nonce, mac, requestBody, bodyHa
   })
   .catch((error) => {
     console.log('Error')
-    // console.error(error); 
+    if (error.response) {
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+    }
   });
