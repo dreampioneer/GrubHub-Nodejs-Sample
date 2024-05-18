@@ -5,6 +5,7 @@
     "crypto": "^1.0.1",
     "dotenv": "^16.4.5",
     "jsonwebtoken": "^9.0.0",
+    "luxon": "^3.4.4",
     "uuid": "^9.0.1"
   }
 }
